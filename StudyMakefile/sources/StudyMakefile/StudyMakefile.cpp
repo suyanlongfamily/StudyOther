@@ -1,6 +1,6 @@
-//#include <iostream>
-//#include <string>
-//using namespace std;
+#include <iostream>
+#include <string>
+using namespace std;
 
 #include <stdio.h>
 
@@ -30,5 +30,16 @@ int main(){
 
 	FUN f = add;
 	int k = f(2,3);
+
+	//查看汇编源码知道，被编译成
+	unsigned int a=20;	//01161478  mov         dword ptr [a],14h 
+	signed int b=-130;	//0116147F  mov         dword ptr [b],0FFFFFF7Eh  
+
+	int kk = -0x9A;	//不管是什么进制，数存在正负。
+	
+	int values = 100;
+	values &= -0xffffffffffffffff;
+
+	std::cout<<a+b<<std::endl;	
 	return 0;
 }
