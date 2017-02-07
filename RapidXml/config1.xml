@@ -1,0 +1,16 @@
+<config>
+	<color>
+		<red>0.1</red>
+		<green>0.1</green>
+		<blue>0.1</blue>
+		<alpha>1.0</alpha>
+	</color>
+	<size>
+		<x>640</x>
+		<y>480</y>
+		<w>1</w>
+		<h>1</h>
+	</size>
+	<mode fullscreen="false">screen mode</mode>
+</config>
+
