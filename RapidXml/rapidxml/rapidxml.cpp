@@ -17,10 +17,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	int length = sizeof(void *);
 	//char a = '[';
 	//char b = char(']');
+
 	////测试用例
-	//CreateXml();
+	CreateXml();
 	//测试用例
-	ReadAndChangeXml();
+	//ReadAndChangeXml();
 	system("pause");
 	return 0;
 }
@@ -30,21 +31,19 @@ int CreateXml()
 	//节点、属性的创建都是靠xml_document 成员函数创建,主要用来管理节点、属性的指针，用来释放。
 	rapidxml::xml_document<> doc;
 	rapidxml::xml_node<>* rot = doc.allocate_node(rapidxml::node_pi,doc.allocate_string("xml version='1.0' encoding='utf-8'"));
-	doc.append_node(rot);
+	doc.append_node(rot);//整个文档就是节点
 	
 	rapidxml::xml_node<>* node = doc.allocate_node(rapidxml::node_element,"config","information");
 	doc.append_node(node);
 
 	rapidxml::xml_node<>* color = doc.allocate_node(rapidxml::node_element,"color",NULL);
 	node->append_node(color);
-
 	color->append_node(doc.allocate_node(rapidxml::node_element,"red","0.1"));
 	color->append_node(doc.allocate_node(rapidxml::node_element,"green","0.1"));
 	color->append_node(doc.allocate_node(rapidxml::node_element,"blue","0.1"));
 	color->append_node(doc.allocate_node(rapidxml::node_element,"alpha","1.0"));
 
-	rapidxml::xml_node<>* size = doc.allocate_node(rapidxml::node_element,"size",NULL);
-
+	rapidxml::xml_node<>* size = doc.allocate_node(rapidxml::node_element,"size",NULL);	 
 	size->append_node(doc.allocate_node(rapidxml::node_element,"x","640"));
 	size->append_node(doc.allocate_node(rapidxml::node_element,"y","480"));
 	node->append_node(size);
@@ -56,17 +55,17 @@ int CreateXml()
 	std::string text;
 	rapidxml::print(std::back_inserter(text), doc, 0);
 	std::cout<<text<<std::endl;
-	std::ofstream out("../config1.xml");
+	std::ofstream out("../config.xml");
 	out << doc;
-
+	
 	return 0;
 }
 
 
-//读取并修改config3.xml
+//读取并修改config1.xml
 int ReadAndChangeXml()
 {
-	rapidxml::file<> fdoc("../config.xml");
+	rapidxml::file<> fdoc("../config1.xml");
 	std::cout<<fdoc.data()<<std::endl;
 	rapidxml::xml_document<> doc;
 	
@@ -93,6 +92,5 @@ int ReadAndChangeXml()
 	std::ofstream out("../config1.xml");
 	out << doc;
 	doc.clear();
-	//doc.clear();
 	return 0;
 }

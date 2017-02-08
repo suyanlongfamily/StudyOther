@@ -113,14 +113,14 @@ namespace rapidxml
     // Size of static memory block of memory_pool.
     // Define RAPIDXML_STATIC_POOL_SIZE before including rapidxml.hpp if you want to override the default value.
     // No dynamic memory allocations are performed by memory_pool until static memory is exhausted.
-    #define RAPIDXML_STATIC_POOL_SIZE (4 * 1)
+    #define RAPIDXML_STATIC_POOL_SIZE (64 * 1024)
 #endif
 
 #ifndef RAPIDXML_DYNAMIC_POOL_SIZE
     // Size of dynamic memory block of memory_pool.
     // Define RAPIDXML_DYNAMIC_POOL_SIZE before including rapidxml.hpp if you want to override the default value.
     // After the static block is exhausted, dynamic blocks with approximately this size are allocated by memory_pool.
-    #define RAPIDXML_DYNAMIC_POOL_SIZE (4 * 1)
+    #define RAPIDXML_DYNAMIC_POOL_SIZE (64 * 1024)
 #endif
 
 #ifndef RAPIDXML_ALIGNMENT
@@ -305,7 +305,7 @@ namespace rapidxml
             static const unsigned char lookup_upcase[256];                  // To uppercase conversion table for ASCII characters
         };
 
-        // Find length of the string
+        // Find length of the string   计算长度。
         template<class Ch>
         inline std::size_t measure(const Ch *p)
         {
@@ -990,7 +990,7 @@ namespace rapidxml
                 return m_last_node;
         }
 
-        //! Gets previous sibling node, optionally matching node name. 
+        //! Gets previous sibling node, optionally matching node name. 以当前节点为基准，查找前面匹配给定条件兄弟节点。
         //! Behaviour is undefined if node has no parent.
         //! Use parent() to test if node has a parent.
         //! \param name Name of sibling to find, or 0 to return previous sibling regardless of its name; this string doesn't have to be zero-terminated if name_size is non-zero
@@ -1013,7 +1013,7 @@ namespace rapidxml
                 return m_prev_sibling;
         }
 
-        //! Gets next sibling node, optionally matching node name. 
+        //! Gets next sibling node, optionally matching node name.  以当前节点为基准，查找后面匹配给定条件第一个兄弟节点。
         //! Behaviour is undefined if node has no parent.
         //! Use parent() to test if node has a parent.
         //! \param name Name of sibling to find, or 0 to return next sibling regardless of its name; this string doesn't have to be zero-terminated if name_size is non-zero
@@ -1036,6 +1036,7 @@ namespace rapidxml
                 return m_next_sibling;
         }
 
+		//! 匹配名字查找第一个属性，默认是第一个属性。下面同样。
         //! Gets first attribute of node, optionally matching attribute name.
         //! \param name Name of attribute to find, or 0 to return first attribute regardless of its name; this string doesn't have to be zero-terminated if name_size is non-zero
         //! \param name_size Size of name, in characters, or 0 to have size calculated automatically from string
@@ -1211,7 +1212,7 @@ namespace rapidxml
             m_first_node = 0;
         }
 
-        //! Prepends a new attribute to the node.
+        //! Prepends a new attribute to the node.追加在前面
         //! \param attribute Attribute to prepend.
         void prepend_attribute(xml_attribute<Ch> *attribute)
         {
@@ -1231,18 +1232,18 @@ namespace rapidxml
             attribute->m_prev_attribute = 0;
         }
 
-        //! Appends a new attribute to the node.
+        //! Appends a new attribute to the node. 追加在后面
         //! \param attribute Attribute to append.
         void append_attribute(xml_attribute<Ch> *attribute)
         {
             assert(attribute && !attribute->parent());
             if (first_attribute())
-            {
+            {	//已经存在一条属性，在当前节点。
                 attribute->m_prev_attribute = m_last_attribute;
                 m_last_attribute->m_next_attribute = attribute;
             }
             else
-            {
+            {	//第一条属性，在当前节点。
                 attribute->m_prev_attribute = 0;
                 m_first_attribute = attribute;
             }
@@ -1353,13 +1354,13 @@ namespace rapidxml
         // 2. last_node and last_attribute are valid only if node has at least one child/attribute respectively, otherwise they contain garbage
         // 3. prev_sibling and next_sibling are valid only if node has a parent, otherwise they contain garbage
 
-        node_type m_type;                       // Type of node; always valid
-        xml_node<Ch> *m_first_node;             // Pointer to first child node, or 0 if none; always valid
-        xml_node<Ch> *m_last_node;              // Pointer to last child node, or 0 if none; this value is only valid if m_first_node is non-zero
-        xml_attribute<Ch> *m_first_attribute;   // Pointer to first attribute of node, or 0 if none; always valid
-        xml_attribute<Ch> *m_last_attribute;    // Pointer to last attribute of node, or 0 if none; this value is only valid if m_first_attribute is non-zero
-        xml_node<Ch> *m_prev_sibling;           // Pointer to previous sibling of node, or 0 if none; this value is only valid if m_parent is non-zero
-        xml_node<Ch> *m_next_sibling;           // Pointer to next sibling of node, or 0 if none; this value is only valid if m_parent is non-zero
+        node_type m_type;                       // 当前节点的类型，Type of node; always valid
+        xml_node<Ch> *m_first_node;             // 当前节点的第一个子节点，Pointer to first child node, or 0 if none; always valid
+        xml_node<Ch> *m_last_node;              // 当前节点的最后一个子节点，Pointer to last child node, or 0 if none; this value is only valid if m_first_node is non-zero
+        xml_attribute<Ch> *m_first_attribute;   // 当前节点的第一个属性，Pointer to first attribute of node, or 0 if none; always valid
+        xml_attribute<Ch> *m_last_attribute;    // 当前节点的最后一个属性，Pointer to last attribute of node, or 0 if none; this value is only valid if m_first_attribute is non-zero
+        xml_node<Ch> *m_prev_sibling;           // 当前节点的前一个姐妹节点，Pointer to previous sibling of node, or 0 if none; this value is only valid if m_parent is non-zero
+        xml_node<Ch> *m_next_sibling;           // 当前节点的前一个姐妹节点，Pointer to next sibling of node, or 0 if none; this value is only valid if m_parent is non-zero
 
     };
 
