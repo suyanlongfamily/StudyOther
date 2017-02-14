@@ -436,8 +436,8 @@ namespace rapidxml
                                     const Ch *name = 0, const Ch *value = 0,
                                     std::size_t name_size = 0, std::size_t value_size = 0)
         {
-            void *memory = allocate_aligned(sizeof(xml_node<Ch>));
-            xml_node<Ch> *node = new(memory) xml_node<Ch>(type);
+            void *memory = allocate_aligned(sizeof(xml_node<Ch>)); //仅仅返回一个指针，在缓存中，
+            xml_node<Ch> *node = new(memory) xml_node<Ch>(type); //还可以这样使用？？？
             if (name)
             {
                 if (name_size > 0)
@@ -622,8 +622,9 @@ namespace rapidxml
             m_nullstr = 0;
             m_xmlns_xml = 0;
             m_xmlns_xmlns = 0;
-        }
-
+        } 		
+		
+		//对齐地址
         char *align(char *ptr)
         {
             std::size_t alignment = ((RAPIDXML_ALIGNMENT - (std::size_t(ptr) & (RAPIDXML_ALIGNMENT - 1))) & (RAPIDXML_ALIGNMENT - 1));
@@ -1154,6 +1155,53 @@ namespace rapidxml
                     return child;
             return 0;
         }
+
+		//! 根据属性值寻找第一个子节点。
+		xml_node<Ch> *first_node_by_attribute(const Ch *name = 0, std::size_t name_size = 0, std::size_t xmlns_size = 0, bool case_sensitive = true) const
+		{
+			xml_node<Ch> *child=NULL;
+			if (this->m_last_node == this->m_first_node)
+			{
+				child = NULL;//不存在子节点。				
+			} else{
+				
+				if(name){
+					for (xml_node<> *first_iter = this->m_first_node;first_iter;first_iter = first_iter->m_next_sibling)
+					{
+						if( first_iter->first_attribute(name,name_size,case_sensitive)){
+							child = first_iter;
+							break;
+						}
+					} 					
+				}else{
+					child = this->m_first_node;
+				}
+			}	 		 
+			return child;
+		}
+
+		//! 根据属性值寻找最后一个子节点。
+		xml_node<Ch> *last_node_by_attribute(const Ch *name = 0,std::size_t name_size = 0, std::size_t xmlns_size = 0, bool case_sensitive = true) const
+		{
+			xml_node<Ch> *child=NULL;
+			if (this->m_last_node == this->m_first_node)
+			{
+				child = NULL;//不存在子节点。				
+			} else{	
+				if(name){
+					for (xml_node<> *last_iter = this->m_last_node;last_iter;last_iter = last_iter->m_prev_sibling)
+					{
+						if( last_iter->last_attribute(name,name_size,case_sensitive)){
+							child = last_iter;
+							break;
+						}
+					}		
+				}else{
+					child = this->m_last_node;
+				}
+			}	 		 
+			return child;
+		}
 
         //! Gets last child node, optionally matching node name.
         //! Behaviour is undefined if node has no children.

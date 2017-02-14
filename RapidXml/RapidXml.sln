@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rapidxml", "rapidxml\rapidx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TSXParser", "TSXParser\TSXParser.vcxproj", "{625DC547-581D-4BF3-807B-4D8A3BF5CC94}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "operator_new_delete_study", "operator_new_delete_study\operator_new_delete_study.vcxproj", "{8FBBDDC2-BA43-4692-A5BE-308C2288D31C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{625DC547-581D-4BF3-807B-4D8A3BF5CC94}.Debug|Win32.Build.0 = Debug|Win32
 		{625DC547-581D-4BF3-807B-4D8A3BF5CC94}.Release|Win32.ActiveCfg = Release|Win32
 		{625DC547-581D-4BF3-807B-4D8A3BF5CC94}.Release|Win32.Build.0 = Release|Win32
+		{8FBBDDC2-BA43-4692-A5BE-308C2288D31C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8FBBDDC2-BA43-4692-A5BE-308C2288D31C}.Debug|Win32.Build.0 = Debug|Win32
+		{8FBBDDC2-BA43-4692-A5BE-308C2288D31C}.Release|Win32.ActiveCfg = Release|Win32
+		{8FBBDDC2-BA43-4692-A5BE-308C2288D31C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
