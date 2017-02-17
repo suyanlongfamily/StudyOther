@@ -1,9 +1,6 @@
 // operator_new_delete_study.cpp : ¶¨Òå¿ØÖÆÌ¨Ó¦ÓÃ³ÌĞòµÄÈë¿Úµã¡£
 //
 
-#include <string>
-//#include <cassert>
-#include <iostream>
 
 /************************************************************************/
 /*    
@@ -81,6 +78,11 @@ operator new¾ÍÏñoperator + Ò»Ñù£¬ÊÇ¿ÉÒÔÖØÔØµÄ¡£Èç¹ûÀàÖĞÃ»ÓĞÖØÔØoperator new£¬ÄÇÃ
 */
 /************************************************************************/
 
+
+#include <string>
+//#include <cassert>
+#include <iostream>
+
 using namespace std;
 class X
 {
@@ -102,6 +104,11 @@ public:
 		return ::operator new(size);
 	}
 
+	void * operator new(size_t, void *_Where) _THROW0()
+	{	// construct array with placement at _Where
+		return (_Where);
+	}
+
 	void operator delete(void* pointee)
 	{
 		cout<<"operator delete"<<endl;
@@ -120,9 +127,14 @@ int main(int argc, char * argv[]) {
 	//X* px1 = new(sizeof(X));Ê×ÏÈÕâ¸ö size ÊÇ±àÒë×Ô¼ºÄ¬ÈÏ´«µİ¹ıÀ´µÄ£¬²»ĞèÒªÒ²²»ÄÜ×öÏÔÊ¾´«µİ£¬·ñ´ÎÎŞ·¨±àÒë¡£
 
 	X *px = new("A new class") X; //void* operator new(size_t size,string str)
-	delete px;
+	
+	char memeX[sizeof(X)];
+
+	X* iptr29 = new (memeX) X;	
 
 	char mem[sizeof(int)];
+
+
 	//µ÷ÓÃÁË¶¨ÖÆµÄ placement new£ºÖ»ÊÇoperator newÖØÔØµÄÒ»¸ö°æ±¾¡£Ëü²¢²»·ÖÅäÄÚ´æ£¬Ö»ÊÇ·µ»ØÖ¸ÏòÒÑ¾­·ÖÅäºÃµÄÄ³¶ÎÄÚ´æµÄÒ»¸öÖ¸Õë¡£Òò´Ë²»ÄÜÉ¾³ıËü£¬µ«ĞèÒªµ÷ÓÃ¶ÔÏóµÄÎö¹¹º¯Êı¡£
 	//Èç¹ûÄãÏëÔÚÒÑ¾­·ÖÅäµÄÄÚ´æÖĞ´´½¨Ò»¸ö¶ÔÏó£¬Ê¹ÓÃnewÊ±ĞĞ²»Í¨µÄ¡£Ò²¾ÍÊÇËµplacement newÔÊĞíÄãÔÚÒ»¸öÒÑ¾­·ÖÅäºÃµÄÄÚ´æÖĞ£¨Õ»»òÕß¶ÑÖĞ£©¹¹ÔìÒ»¸öĞÂµÄ¶ÔÏó¡£
 	//Ô­ĞÍÖĞvoid* pÊµ¼ÊÉÏ¾ÍÊÇÖ¸ÏòÒ»¸öÒÑ¾­·ÖÅäºÃµÄÄÚ´æ»º³åÇøµÄµÄÊ×µØÖ·¡£
@@ -130,7 +142,8 @@ int main(int argc, char * argv[]) {
 	//{	// construct array with placement at _Where
 	//	return (_Where);
 	//}
-	//Õâ¸öÒ²¿ÉÒÔ×Ô¼º´ÓĞÂÖØÔØµÄ£¬µ«ÊÇ²»ÄÜ°üº¬Í·ÎÄ¼ş<new> ·ñÔò»á³åÍ»µÄ¡£
+	//Õâ¸öÒ²¿ÉÒÔ×Ô¼º´ÓĞÂÖØÔØµÄ£¬µ«ÊÇ²»ÄÜ°üº¬Í·ÎÄ¼ş<new> ·ñÔò»á³åÍ»µÄ¡£´æÔÚ×÷ÓÃÓòµÄÊ±ºòÒ²ÊÇ¿ÉÒÔµÄ£¬Ö»Òª²»ÊÇstd¿Õ¼äÀïÃæ¾Í¿ÉÒÔÁË¡£	 
+	//·ñÔò»á³åÍ»µÄ£¡¾ÍÏñÉÏÃæÒ»Ñù£¬ÔÚÀàÀïÃæÒ²ÊÇ¿ÉÒÔµÄ£¬²»¹ıÖ»ÄÜÓĞ¹ØÕâ¸öXÀà²Ù×÷µÄÊ±ºò£¬²Å»áµ÷ÓÃX¶¨ÒåµÄplacement new¡£
 	// new operator 
 	int* iptr2 = new (mem) int;	
 	//delete(iptr2,iptr2);       // Whoops, segmentation fault! ÎØ°¡£¬¶Î´íÎóÀ²£¡
