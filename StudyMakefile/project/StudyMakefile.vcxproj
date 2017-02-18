@@ -80,11 +80,11 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sources\StudyMakefile\StudyMakefile.cpp" />
-    <ClCompile Include="..\sources\StudyMakefile\Tool\Tool.cpp" />
+    <ClCompile Include="debug_so.cpp" />
+    <ClCompile Include="Tool\Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sources\StudyMakefile\Tool\Tool.h" />
+    <ClInclude Include="Tool\Tool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

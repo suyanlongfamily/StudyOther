@@ -19,15 +19,15 @@
     <None Include="..\sources\StudyMakefile\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sources\StudyMakefile\StudyMakefile.cpp">
+    <ClCompile Include="debug_so.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\sources\StudyMakefile\Tool\Tool.cpp">
+    <ClCompile Include="Tool\Tool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sources\StudyMakefile\Tool\Tool.h">
+    <ClInclude Include="Tool\Tool.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
